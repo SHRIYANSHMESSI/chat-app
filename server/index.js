@@ -32,7 +32,7 @@ mongoose.connect(process.env.MONGO_URL, {
 
 //   harry tarika
 //   app.listen(() => {
-//     console.log(`iNotebook backend listening at http://localhost:5000`)
+//     console.log(`chat-app backend listening at http://localhost:5000`)
 //   })
 
 const server = app.listen(process.env.PORT, () =>
