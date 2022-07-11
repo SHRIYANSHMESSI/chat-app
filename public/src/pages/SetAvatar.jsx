@@ -61,6 +61,8 @@ function SetAvatar() {
             const image = await axios.get(
               `${api}/${Math.round(Math.random() * 1000)}`
             );
+
+            //buffer : designed to handle raw binary data
             const buffer = new Buffer(image.data);
             data.push(buffer.toString("base64"));
           }

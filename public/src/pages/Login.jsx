@@ -16,6 +16,7 @@ function Login() {
     password: "",
   });
 
+  //if the key 'chat-app-user' is present, then navigate to chat page.
   useEffect(() => {
     if(localStorage.getItem('chat-app-user')){
       navigate("/");

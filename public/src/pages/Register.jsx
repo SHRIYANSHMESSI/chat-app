@@ -32,6 +32,7 @@ function Register() {
     }
   },[])
 
+  // axios is used for api calling and we are passing the data in the username, email, password
   const handleSubmit = async (e)=>{
     e.preventDefault();
     if(handleValidation()){
@@ -40,15 +41,17 @@ function Register() {
       const {data} = await axios.post(registerRoute, {
         username,
         email,
-        password,
+        password
       });
-
+      //according to the data we sent, we will recieve the validation here.
       if(data.status===false){
         toast.error(data.msg, toastOptions);
       }
+
+      //passing the information to local storage and we will use JSON.parse method to get this information.
       if(data.status===true){
         localStorage.setItem('chat-app-user', JSON.stringify(data.user));
-        navigate("/");
+        navigate("/");//this will navigate the user to the chat container.
       }
     }
   }
@@ -87,6 +90,7 @@ function Register() {
     return true;
   };
 
+  // ... is used to destructure the current values
   const handleChange=(e)=>{
     setValues({...values,[e.target.name]: e.target.value});
   }

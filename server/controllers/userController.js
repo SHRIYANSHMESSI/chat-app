@@ -83,6 +83,7 @@ module.exports.getAllUsers = async (req, res, next) => {
     try{
         const userId = req.params.id;
         const avatarImage = req.body.image;
+        //ne: -> it is used to not select the current id
         const users = await User.find({_id:{$ne:req.params.id}}).select([
             "email",
             "username",
