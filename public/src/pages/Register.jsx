@@ -7,6 +7,8 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { registerRoute } from '../utils/APIRoutes';
 
+// import {signInWithGoogle} from '../Firebase'
+
 function Register() {
 
   const navigate = useNavigate()
@@ -108,6 +110,7 @@ function Register() {
             <input type="password" placeholder="Confirm Password" name="confirmPassword" onChange={(e)=>handleChange(e)} />
 
             <button type="submit">Create User</button>
+            {/* <button type="submit" onClick={signInWithGoogle}>Sign In with Google</button> */}
             <span>
               already have an account ? <Link to="/login">Login</Link>
             </span>
