@@ -22,6 +22,7 @@ module.exports.getAllMessage = async (req,res,next) => {
         const {from, to} = req.body;
         const messages = await messageModel.find({
             users: {
+                // this will get all the messages from both the users
                 $all: [from, to],
             },
         }).sort({updatedAt: 1});

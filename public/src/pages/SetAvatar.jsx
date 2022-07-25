@@ -57,7 +57,7 @@ function SetAvatar() {
         const fetchData = async () => {
           const data = [];
           // foreach doesn't work with APIs
-          for (let i = 0; i < 4; i++) {
+          for (let i = 0; i < 5; i++) {
             const image = await axios.get(
               `${api}/${Math.round(Math.random() * 1000)}`
             );

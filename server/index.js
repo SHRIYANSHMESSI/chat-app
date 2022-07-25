@@ -9,6 +9,7 @@ const socket = require("socket.io");
 const app = express();
 require("dotenv").config();
 
+//used to relax the security applied to api
 app.use(cors());
 app.use(express.json());
 
