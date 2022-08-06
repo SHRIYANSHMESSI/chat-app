@@ -7,6 +7,9 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { loginRoute } from '../utils/APIRoutes';
 
+import {auth,provider} from '../Firebase'
+import {signInWithPopup} from "firebase/auth"
+
 function Login() {
 
   const navigate = useNavigate()
@@ -31,26 +34,57 @@ function Login() {
       theme: "dark",
   }
 
+  const helper = async () => {
+    const {password, username, email} = values;
+    const {data} = await axios.post(loginRoute, {
+        username,
+        password
+      });
+      if(data.status===false){
+        toast.error(data.msg, toastOptions);
+      }
+
+      //passing the information to local storage and we will use JSON.parse method to get this information.
+      if(data.status===true){
+        localStorage.setItem('chat-app-user', JSON.stringify(data.user));
+        navigate("/");//this will navigate the user to the chat container.
+      }
+  }
+
   const handleSubmit = async (e)=>{
     e.preventDefault();
     if(handleValidation()){
       console.log("in validation", loginRoute)
-      const {password, username} = values;
-      const {data} = await axios.post(loginRoute, {
-        username,
-        password,
-      });
+      // const {password, username} = values;
+      // const {data} = await axios.post(loginRoute, {
+      //   username,
+      //   password,
+      // });
 
-      if(data.status===false){
-        toast.error(data.msg, toastOptions);
-      }
-      if(data.status===true){
-        localStorage.setItem('chat-app-user', JSON.stringify(data.user));
-        navigate("/");
-      }
+      // if(data.status===false){
+      //   toast.error(data.msg, toastOptions);
+      // }
+      // if(data.status===true){
+      //   localStorage.setItem('chat-app-user', JSON.stringify(data.user));
+      //   navigate("/");
+      // }
+
+      helper();
       
     }
   }
+
+  const signInWithGoogle = () => {
+    signInWithPopup(auth, provider).then((result) => {
+      let x = result._tokenResponse;
+      const {firstName} = x;
+      console.log(firstName);
+      setValues({username:firstName ,password:firstName});
+      helper();
+    }).catch((error) => {
+        console.log(error);
+    });
+}
 
   //installed react-toastify package to use toast in this function
   const handleValidation = () => {
@@ -99,6 +133,7 @@ function Login() {
             />
 
             <button type="submit">Login</button>
+            <button type="submit" onClick={signInWithGoogle}>Sign In with Google</button>
             <span>
               Don't have an account ? <Link to="/register">Register</Link>
             </span>

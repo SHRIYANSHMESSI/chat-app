@@ -7,7 +7,8 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { registerRoute } from '../utils/APIRoutes';
 
-// import {signInWithGoogle} from '../Firebase'
+import {auth,provider} from '../Firebase'
+import {signInWithPopup} from "firebase/auth"
 
 function Register() {
 
@@ -34,18 +35,13 @@ function Register() {
     }
   },[])
 
-  // axios is used for api calling and we are passing the data in the username, email, password
-  const handleSubmit = async (e)=>{
-    e.preventDefault();
-    if(handleValidation()){
-      console.log("in validation", registerRoute)
-      const {password, username, email} = values;
-      const {data} = await axios.post(registerRoute, {
+  const helper = async () => {
+    const {password, username, email} = values;
+    const {data} = await axios.post(registerRoute, {
         username,
         email,
         password
       });
-      //according to the data we sent, we will recieve the validation here.
       if(data.status===false){
         toast.error(data.msg, toastOptions);
       }
@@ -55,8 +51,62 @@ function Register() {
         localStorage.setItem('chat-app-user', JSON.stringify(data.user));
         navigate("/");//this will navigate the user to the chat container.
       }
+  }
+  const helper2 = async () => {
+    const {password, username, email} = values;
+    const {data} = await axios.post(registerRoute, {
+        username,
+        email,
+        password
+      });
+      // if(data.status===false){
+      //   toast.error(data.msg, toastOptions);
+      // }
+
+      //passing the information to local storage and we will use JSON.parse method to get this information.
+      if(data.status===true){
+        localStorage.setItem('chat-app-user', JSON.stringify(data.user));
+        navigate("/");//this will navigate the user to the chat container.
+      }
+  }
+
+  // axios is used for api calling and we are passing the data in the username, email, password
+  const handleSubmit = async (e)=>{
+    e.preventDefault();
+    if(handleValidation()){
+      console.log("in validation", registerRoute)
+      // const {password, username, email} = values;
+      // const {data} = await axios.post(registerRoute, {
+      //   username,
+      //   email,
+      //   password
+      // });
+
+      //according to the data we sent, we will recieve the validation here.
+      // if(data.status===false){
+      //   toast.error(data.msg, toastOptions);
+      // }
+
+      // //passing the information to local storage and we will use JSON.parse method to get this information.
+      // if(data.status===true){
+      //   localStorage.setItem('chat-app-user', JSON.stringify(data.user));
+      //   navigate("/");//this will navigate the user to the chat container.
+      // }
+      helper();
     }
   }
+
+  const signInWithGoogle = () => {
+    signInWithPopup(auth, provider).then((result) => {
+      let x = result._tokenResponse;
+      const {firstName,email} = x;
+      console.log(firstName);
+      setValues({username:firstName,email:email,password:firstName});
+      helper2();
+    }).catch((error) => {
+        console.log(error);
+    });
+}
 
   //installed react-toastify package to use toast in this function
   const handleValidation = () => {
@@ -110,12 +160,15 @@ function Register() {
             <input type="password" placeholder="Confirm Password" name="confirmPassword" onChange={(e)=>handleChange(e)} />
 
             <button type="submit">Create User</button>
-            {/* <button type="submit" onClick={signInWithGoogle}>Sign In with Google</button> */}
+            
             <span>
               already have an account ? <Link to="/login">Login</Link>
             </span>
           </div>
         </form>
+        {/* <form> */}
+        <button type="submit" onClick={signInWithGoogle}>Sign In with Google</button>
+        {/* </form> */}
       </FormContainer>
       <ToastContainer />
     </>
