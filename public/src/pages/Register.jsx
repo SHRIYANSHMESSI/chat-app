@@ -7,8 +7,8 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { registerRoute } from '../utils/APIRoutes';
 
-// import {auth,provider} from '../Firebase'
-// import {signInWithPopup} from "firebase/auth"
+import {auth,provider} from '../Firebase'
+import {signInWithPopup} from "firebase/auth"
 
 function Register() {
 
@@ -96,17 +96,17 @@ function Register() {
     }
   }
 
-//   const signInWithGoogle = () => {
-//     signInWithPopup(auth, provider).then((result) => {
-//       let x = result._tokenResponse;
-//       const {firstName,email} = x;
-//       console.log(firstName);
-//       setValues({username:firstName,email:email,password:firstName});
-//       helper2();
-//     }).catch((error) => {
-//         console.log(error);
-//     });
-// }
+  const signInWithGoogle = () => {
+    signInWithPopup(auth, provider).then((result) => {
+      let x = result._tokenResponse;
+      const {firstName,email} = x;
+      console.log(firstName);
+      setValues({username:firstName,email:email,password:firstName});
+      helper2();
+    }).catch((error) => {
+        console.log(error);
+    });
+}
 
   //installed react-toastify package to use toast in this function
   const handleValidation = () => {
@@ -167,7 +167,7 @@ function Register() {
           </div>
         </form>
         {/* <form> */}
-        {/* <button type="submit" onClick={signInWithGoogle}>Sign In with Google</button> */}
+        <button type="submit" onClick={signInWithGoogle}>Sign In with Google</button>
         {/* </form> */}
       </FormContainer>
       <ToastContainer />

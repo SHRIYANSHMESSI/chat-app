@@ -7,8 +7,8 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { loginRoute } from '../utils/APIRoutes';
 
-// import {auth,provider} from '../Firebase'
-// import {signInWithPopup} from "firebase/auth"
+import {auth,provider} from '../Firebase'
+import {signInWithPopup} from "firebase/auth"
 
 function Login() {
 
@@ -35,7 +35,7 @@ function Login() {
   }
 
   const helper = async () => {
-    const {password, username, email} = values;
+    const {password, username} = values;
     const {data} = await axios.post(loginRoute, {
         username,
         password
@@ -74,17 +74,17 @@ function Login() {
     }
   }
 
-//   const signInWithGoogle = () => {
-//     signInWithPopup(auth, provider).then((result) => {
-//       let x = result._tokenResponse;
-//       const {firstName} = x;
-//       console.log(firstName);
-//       setValues({username:firstName ,password:firstName});
-//       helper();
-//     }).catch((error) => {
-//         console.log(error);
-//     });
-// }
+  const signInWithGoogle = () => {
+    signInWithPopup(auth, provider).then((result) => {
+      let x = result._tokenResponse;
+      const {firstName} = x;
+      console.log(firstName);
+      setValues({username:firstName ,password:firstName});
+      helper();
+    }).catch((error) => {
+        console.log(error);
+    });
+}
 
   //installed react-toastify package to use toast in this function
   const handleValidation = () => {
@@ -133,12 +133,12 @@ function Login() {
             />
 
             <button type="submit">Login</button>
-            {/* <button type="submit" onClick={signInWithGoogle}>Sign In with Google</button> */}
             <span>
               Don't have an account ? <Link to="/register">Register</Link>
             </span>
           </div>
         </form>
+            <button type="submit" onClick={signInWithGoogle}>Sign In with Google</button>
       </FormContainer>
       <ToastContainer />
     </>
