@@ -35,7 +35,7 @@ function Register() {
     }
   },[])
 
-  const helper = async () => {
+  const helper2 = async () => {
     const {password, username, email} = values;
     const {data} = await axios.post(registerRoute, {
         username,
@@ -52,47 +52,29 @@ function Register() {
         navigate("/");//this will navigate the user to the chat container.
       }
   }
-  const helper2 = async () => {
-    const {password, username, email} = values;
-    const {data} = await axios.post(registerRoute, {
+
+  // axios is used for api calling and we are passing the data in the username, email, password
+  const handleSubmit = async (e)=>{
+    e.preventDefault();
+    if(handleValidation()){
+      // console.log("in validation", registerRoute)
+      const {password, username, email} = values;
+      const {data} = await axios.post(registerRoute, {
         username,
         email,
         password
       });
-      // if(data.status===false){
-      //   toast.error(data.msg, toastOptions);
-      // }
+
+      // according to the data we sent, we will recieve the validation here.
+      if(data.status===false){
+        toast.error(data.msg, toastOptions);
+      }
 
       //passing the information to local storage and we will use JSON.parse method to get this information.
       if(data.status===true){
         localStorage.setItem('chat-app-user', JSON.stringify(data.user));
         navigate("/");//this will navigate the user to the chat container.
       }
-  }
-
-  // axios is used for api calling and we are passing the data in the username, email, password
-  const handleSubmit = async (e)=>{
-    e.preventDefault();
-    if(handleValidation()){
-      console.log("in validation", registerRoute)
-      // const {password, username, email} = values;
-      // const {data} = await axios.post(registerRoute, {
-      //   username,
-      //   email,
-      //   password
-      // });
-
-      //according to the data we sent, we will recieve the validation here.
-      // if(data.status===false){
-      //   toast.error(data.msg, toastOptions);
-      // }
-
-      // //passing the information to local storage and we will use JSON.parse method to get this information.
-      // if(data.status===true){
-      //   localStorage.setItem('chat-app-user', JSON.stringify(data.user));
-      //   navigate("/");//this will navigate the user to the chat container.
-      // }
-      helper();
     }
   }
 
@@ -100,7 +82,7 @@ function Register() {
     signInWithPopup(auth, provider).then((result) => {
       let x = result._tokenResponse;
       const {firstName,email} = x;
-      console.log(firstName);
+      // console.log(firstName);
       setValues({username:firstName,email:email,password:firstName});
       helper2();
     }).catch((error) => {
@@ -166,9 +148,9 @@ function Register() {
             </span>
           </div>
         </form>
-        {/* <form> */}
-        <button type="submit" onClick={signInWithGoogle}>Sign In with Google</button>
-        {/* </form> */}
+        <p>
+        <button type="submit" onClick={signInWithGoogle}>Register with Google</button>
+        </p>
       </FormContainer>
       <ToastContainer />
     </>
@@ -179,7 +161,7 @@ const FormContainer = styled.div`
   height: 100vh;
   width: 100vw;
   display: flex;
-  
+  flex-direction: column;
   justify-content: center;
   gap: 1rem;
   align-items: center;
@@ -198,13 +180,33 @@ const FormContainer = styled.div`
       text-transform: uppercase;
     }
   }
+
+  p {
+    button {
+      background-color: #4e0eff;
+      color: white;
+      padding: 1rem 2rem;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 0.4rem;
+      font-size: 1rem;
+      text-transform: uppercase;
+      transition: 0.5s ease-in-out;
+      &:hover {
+        background-color: #4e0eff;
+
+      }
+    }
+  }
+
   form {
     display: flex;
     flex-direction: column;
     gap: 2rem;
     background-color: #00000076;
     border-radius: 2rem;
-    padding: 3rem 5rem;
+    padding: 2rem 5rem;
   
     input {
       background-color: transparent;

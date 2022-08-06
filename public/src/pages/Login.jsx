@@ -54,7 +54,7 @@ function Login() {
   const handleSubmit = async (e)=>{
     e.preventDefault();
     if(handleValidation()){
-      console.log("in validation", loginRoute)
+      // console.log("in validation", loginRoute)
       // const {password, username} = values;
       // const {data} = await axios.post(loginRoute, {
       //   username,
@@ -78,7 +78,7 @@ function Login() {
     signInWithPopup(auth, provider).then((result) => {
       let x = result._tokenResponse;
       const {firstName} = x;
-      console.log(firstName);
+      // console.log(firstName);
       setValues({username:firstName ,password:firstName});
       helper();
     }).catch((error) => {
@@ -138,7 +138,9 @@ function Login() {
             </span>
           </div>
         </form>
+        <p>
             <button type="submit" onClick={signInWithGoogle}>Sign In with Google</button>
+        </p>
       </FormContainer>
       <ToastContainer />
     </>
@@ -149,7 +151,7 @@ const FormContainer = styled.div`
   height: 100vh;
   width: 100vw;
   display: flex;
-  
+  flex-direction:column;
   justify-content: center;
   gap: 1rem;
   align-items: center;
@@ -166,6 +168,24 @@ const FormContainer = styled.div`
     h1 {
       color: white;
       text-transform: uppercase;
+    }
+  }
+  p {
+    button {
+      background-color: #4e0eff;
+      color: white;
+      padding: 1rem 2rem;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 0.4rem;
+      font-size: 1rem;
+      text-transform: uppercase;
+      transition: 0.5s ease-in-out;
+      &:hover {
+        background-color: #4e0eff;
+
+      }
     }
   }
   form {
