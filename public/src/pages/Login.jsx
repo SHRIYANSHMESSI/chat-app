@@ -54,23 +54,20 @@ function Login() {
   const handleSubmit = async (e)=>{
     e.preventDefault();
     if(handleValidation()){
-      // console.log("in validation", loginRoute)
-      // const {password, username} = values;
-      // const {data} = await axios.post(loginRoute, {
-      //   username,
-      //   password,
-      // });
+      console.log("in validation", loginRoute)
+      const {password, username} = values;
+      const {data} = await axios.post(loginRoute, {
+        username,
+        password,
+      });
 
-      // if(data.status===false){
-      //   toast.error(data.msg, toastOptions);
-      // }
-      // if(data.status===true){
-      //   localStorage.setItem('chat-app-user', JSON.stringify(data.user));
-      //   navigate("/");
-      // }
-
-      helper();
-      
+      if(data.status===false){
+        toast.error(data.msg, toastOptions);
+      }
+      if(data.status===true){
+        localStorage.setItem('chat-app-user', JSON.stringify(data.user));
+        navigate("/");
+      }
     }
   }
 
